@@ -40,6 +40,7 @@
 --
 -- Altera/Terasic DE1 top-level
 --
+-- (c) 2016 Simon Ellwood
 -- (c) 2015 David Banks
 -- (C) 2011 Mike Stirling
 
@@ -185,6 +186,10 @@ signal p_irq_b         : std_logic;
 signal p_nmi_b         : std_logic;
 signal p_rst_b         : std_logic;
 
+signal uart_tx         : std_logic;
+signal uart_rx         : std_logic;
+
+
 signal caps_led        : std_logic;
 signal shift_led       : std_logic;
 signal is_done         : std_logic;
@@ -235,6 +240,7 @@ begin
             IncludeICEDebugger => true,
             IncludeCoPro6502   => false,
             IncludeCoProSPI    => true,
+            IncludeBBCUart     => false,
             IncludeMidi        => true,
             UseT65Core         => false,
             UseAlanDCore       => true
@@ -251,6 +257,8 @@ begin
             video_blue     => VGA_B,
             video_vsync    => VGA_VS,
             video_hsync    => VGA_HS,
+            uart_tx        => uart_tx,
+            uart_rx        => uart_rx,           
             audio_l        => audio_l,
             audio_r        => audio_r,
             ext_nOE        => ext_nOE,
@@ -425,6 +433,10 @@ begin
     GPIO_1(4)  <= p_irq_b;
     GPIO_1(5)  <= p_nmi_b;
     GPIO_1(6)  <= p_rst_b;
+    
+    -- BBC Serial Port
+    uart_rx    <= GPIO_0(0);
+    GPIO_0(1)  <= uart_tx;
 
     -- Debug outputs for SPI interface
     GPIO_1(28) <= p_spi_ssel;

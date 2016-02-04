@@ -61,6 +61,7 @@ entity bbc_micro_core is
         IncludeICEDebugger : boolean := false;
         IncludeCoPro6502   : boolean := false;
         IncludeCoProSPI    : boolean := false;
+        IncludeBBCUart     : boolean := false;
 		  IncludeMidi        : boolean := false;
         UseT65Core         : boolean := false;
         UseAlanDCore       : boolean := true
@@ -84,6 +85,10 @@ entity bbc_micro_core is
         video_blue     : out   std_logic_vector (3 downto 0);
         video_vsync    : out   std_logic;
         video_hsync    : out   std_logic;
+
+        -- BBC Serial UART
+        uart_tx        : out   std_logic;
+        uart_rx        : in    std_logic;
 
         -- Audio
         audio_l        : out   std_logic_vector (15 downto 0);
