@@ -2,6 +2,7 @@ nohup.out
 *~
 #*
 *.bak
+*.qdf
 
 not_in_git/
 

@@ -61,6 +61,7 @@ entity bbc_micro_core is
         IncludeICEDebugger : boolean := false;
         IncludeCoPro6502   : boolean := false;
         IncludeCoProSPI    : boolean := false;
+		  IncludeMidi        : boolean := false;
         UseT65Core         : boolean := false;
         UseAlanDCore       : boolean := true
     );

@@ -788,6 +788,11 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to AUD_DACDAT
 set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to AUD_BCLK
 set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to AUD_ADCLRCK
 set_instance_assignment -name CURRENT_STRENGTH_NEW 12MA -to AUD_ADCDAT
+set_global_assignment -name VHDL_FILE ../src/common/MC6850/wf6850ip_transmit.vhd
+set_global_assignment -name VHDL_FILE ../src/common/MC6850/wf6850ip_top_soc.vhd
+set_global_assignment -name VHDL_FILE ../src/common/MC6850/wf6850ip_top.vhd
+set_global_assignment -name VHDL_FILE ../src/common/MC6850/wf6850ip_receive.vhd
+set_global_assignment -name VHDL_FILE ../src/common/MC6850/wf6850ip_ctrl_status.vhd
 set_global_assignment -name VHDL_FILE ../src/common/Tube/tube_comp_pack.vhd
 set_global_assignment -name VERILOG_FILE ../src/common/Tube/ph_reg3.v
 set_global_assignment -name VERILOG_FILE ../src/common/Tube/ph_flag_m.v

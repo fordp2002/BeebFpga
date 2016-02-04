@@ -235,6 +235,7 @@ begin
             IncludeICEDebugger => true,
             IncludeCoPro6502   => false,
             IncludeCoProSPI    => true,
+            IncludeMidi        => true,
             UseT65Core         => false,
             UseAlanDCore       => true
             )
