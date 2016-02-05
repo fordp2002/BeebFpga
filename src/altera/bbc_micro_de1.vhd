@@ -186,9 +186,11 @@ signal p_irq_b         : std_logic;
 signal p_nmi_b         : std_logic;
 signal p_rst_b         : std_logic;
 
+signal midi_out        : std_logic;
+signal midi_in         : std_logic;
+
 signal uart_tx         : std_logic;
 signal uart_rx         : std_logic;
-
 
 signal caps_led        : std_logic;
 signal shift_led       : std_logic;
@@ -257,6 +259,8 @@ begin
             video_blue     => VGA_B,
             video_vsync    => VGA_VS,
             video_hsync    => VGA_HS,
+            midi_out       => midi_out,
+            midi_in        => midi_in,
             uart_tx        => uart_tx,
             uart_rx        => uart_rx,           
             audio_l        => audio_l,
@@ -438,6 +442,10 @@ begin
     uart_rx    <= GPIO_0(0);
     GPIO_0(1)  <= uart_tx;
 
+    -- MIDI Port
+    midi_in    <= GPIO_0(2);
+    GPIO_0(3)  <= midi_out;   
+    
     -- Debug outputs for SPI interface
     GPIO_1(28) <= p_spi_ssel;
     GPIO_1(29) <= p_spi_sck;
@@ -454,7 +462,7 @@ begin
     -- Unused outputs
     DRAM_ADDR <= (others => 'Z');
     DRAM_DQ <= (others => 'Z');
-    GPIO_0(27 downto 0) <= (others => 'Z');
+    GPIO_0(27 downto 4) <= (others => 'Z');
     GPIO_1(2 downto 0) <= (others => 'Z');
     GPIO_1(27 downto 7) <= (others => 'Z');
 

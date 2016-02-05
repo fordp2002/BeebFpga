@@ -86,6 +86,10 @@ entity bbc_micro_core is
         video_vsync    : out   std_logic;
         video_hsync    : out   std_logic;
 
+        -- BBC Midi Interface
+        midi_out       : out   std_logic;
+        midi_in        : in    std_logic;
+
         -- BBC Serial UART
         uart_tx        : out   std_logic;
         uart_rx        : in    std_logic;
