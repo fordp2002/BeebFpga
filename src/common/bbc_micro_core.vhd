@@ -753,7 +753,7 @@ begin
 --------------------------------------------------------
       Optional_MidiInterface: if IncludeMidi generate
       
-         Inst_MC6850: entity work.WF6850IP_TOP
+         Inst_MC6850: entity work.WF6850IP_TOP_SOC
             port map (
                CLK      => clock_32,
                RESETn   => reset_n,
@@ -763,17 +763,15 @@ begin
                E        => mhz1_clken,
                RWn      => cpu_r_nw,
                RS       => cpu_a(0),
-               
-               --  TO DO DATA
-               
+               DATA_IN  => cpu_do,
+               DATA_OUT => midi_do,             
                TXCLK    => mhz2_clken,
                RXCLK    => mhz2_clken,
                RXDATA   => midi_in,
                CTSn     => '0',
                DCDn     => '0',
                IRQn     => midi_irq_n,               
-               TXDATA   => midi_out
-               
+               TXDATA   => midi_out               
                -- RTS Unnconected
              );
              
@@ -1068,7 +1066,7 @@ begin
                 when "001" =>
                     sid_enable <= '1';
                 when "111" =>
-                     midi_enable <= '1';
+                    midi_enable <= '1';
                 when others =>
                     null;
             end case;
@@ -1190,6 +1188,7 @@ begin
         user_via_do_r when user_via_enable = '1' else
         -- Optional peripherals
         sid_do        when sid_enable = '1' and IncludeSid else
+        midi_do       when midi_enable = '1' and IncludeMidi else
         music5000_do  when io_jim = '1' and IncludeMusic5000 else
         tube_do       when tube_enable = '1' and (IncludeCoPro6502 or IncludeCoProSPI) else
         -- Master 128 additions
