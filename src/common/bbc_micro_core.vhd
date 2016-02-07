@@ -347,6 +347,11 @@ signal sid_ao           :   std_logic_vector(17 downto 0);
 signal sid_do           :   std_logic_vector(7 downto 0);
 signal sid_enable       :   std_logic;
 
+-- Optional MIDI Interface
+signal midi_do           :   std_logic_vector(7 downto 0);
+signal midi_enable       :   std_logic;
+signal midi_irq_n        :   std_logic;
+
 -- Optional Music5000
 signal music5000_ao_l   :   std_logic_vector(15 downto 0);
 signal music5000_ao_r   :   std_logic_vector(15 downto 0);
@@ -743,7 +748,37 @@ begin
 
     end generate;
 
-
+--------------------------------------------------------
+-- Optional Midi Interface
+--------------------------------------------------------
+      Optional_MidiInterface: if IncludeMidi generate
+      
+         Inst_MC6850: entity work.WF6850IP_TOP
+            port map (
+               CLK      => clock_32,
+               RESETn   => reset_n,
+               CS2n     => '0',
+               CS1      => '1',
+               CS0      => midi_enable,
+               E        => mhz1_clken,
+               RWn      => cpu_r_nw,
+               RS       => cpu_a(0),
+               
+               --  TO DO DATA
+               
+               TXCLK    => mhz2_clken,
+               RXCLK    => mhz2_clken,
+               RXDATA   => midi_in,
+               CTSn     => '0',
+               DCDn     => '0',
+               IRQn     => midi_irq_n,               
+               TXDATA   => midi_out
+               
+               -- RTS Unnconected
+             );
+             
+      end generate;
+             
 --------------------------------------------------------
 -- Optional 6502 Co Processor
 --------------------------------------------------------
@@ -1026,11 +1061,14 @@ begin
     process(cpu_a,io_fred)
     begin
         -- All regions normally de-selected
-        sid_enable <= '0';
-        if io_fred = '1' then
+         sid_enable <= '0';
+         midi_enable <= '0'; 
+         if io_fred = '1' then
             case cpu_a(7 downto 5) is
                 when "001" =>
                     sid_enable <= '1';
+                when "111" =>
+                     midi_enable <= '1';
                 when others =>
                     null;
             end case;
@@ -1161,7 +1199,7 @@ begin
         "11111111"    when io_fred = '1' or io_jim = '1' else
         (others => '0'); -- un-decoded locations are pulled down by RP1
 
-    cpu_irq_n <= not ((not sys_via_irq_n) or (not user_via_irq_n) or acc_irr) when m128_mode = '1' else
+    cpu_irq_n <= not ((not sys_via_irq_n) or (not user_via_irq_n) or (not midi_irq_n) or acc_irr) when m128_mode = '1' else
                  not ((not sys_via_irq_n) or (not user_via_irq_n));
     -- SRAM bus
     ext_nCS <= '0';
